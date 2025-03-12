@@ -17,10 +17,12 @@ const login = async (req, res) => {
 
     // Obtener detalles del operador o encargado
     let userDetails = null;
-    if (user.tipo_usuario === "operador") {
-      userDetails = await UserModel.getOperatorDetails(user.id);
-    } else if (user.tipo_usuario === "encargado_cr") {
-      userDetails = await UserModel.getEncargadoDetails(user.id);
+    if (user) {
+      userDetails = await UserModel.getOperatorDetails(user.id_persona);
+    } else {
+      return res
+        .status(500)
+        .json({ message: "No se encontraron detalles del usuario" });
     }
 
     if (!userDetails) {
@@ -31,8 +33,8 @@ const login = async (req, res) => {
 
     // Devolver los datos del usuario autenticado
     res.json({
-      usuario: user.usuario,
-      tipo_usuario: user.tipo_usuario,
+      usuario: user.id_usuario,
+      cr: user.id_cr,
       detalles: userDetails,
     });
   } catch (error) {
