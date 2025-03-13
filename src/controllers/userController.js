@@ -1,4 +1,5 @@
 const UserModel = require("../models/userModel");
+const { get } = require("../routes/routesRoutes");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -20,4 +21,13 @@ const getUserById = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, getUserById };
+const getOperadores = async (req, res) => {
+  try {
+    const operadores = await UserModel.getOperadores();
+    res.json(operadores);
+  } catch (error) {
+    console.error("Error al obtener operadores:", error);
+    res.status(500).json({ message: "Error al obtener operadores" });
+  }
+};
+module.exports = { getAllUsers, getUserById, getOperadores };

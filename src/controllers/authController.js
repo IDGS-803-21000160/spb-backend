@@ -33,7 +33,7 @@ const login = async (req, res) => {
 
     // Devolver los datos del usuario autenticado
     res.json({
-      usuario: user.id_usuario,
+      id_usuario: user.id_usuario,
       cr: user.id_cr,
       detalles: userDetails,
     });
