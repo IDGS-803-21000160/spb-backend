@@ -46,9 +46,25 @@ const getDataFromTheCrThatAssignedRoute = async (idCr) => {
   }
 };
 
+const updateRutaUnitaria = async (idRuta, lps, remisiones, zona) => {
+  try {
+    const [result] = await pool.query("CALL sp_update_ruta_unitaria(?,?,?,?)", [
+      idRuta,
+      lps,
+      remisiones,
+      zona,
+    ]);
+    return result;
+  } catch (error) {
+    console.error("Error al actualizar la ruta unitaria:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   getRoutesByDateAndUser,
   getRutaInfo,
   getRouteAssignedToOperator,
   getDataFromTheCrThatAssignedRoute,
+  updateRutaUnitaria,
 };

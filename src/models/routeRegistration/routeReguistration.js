@@ -13,6 +13,20 @@ const insertMultipleRoutes = async (routesData) => {
   }
 };
 
+const insertRoutesUnitariaYrutaCompartida = async (routesData) => {
+  const query = `CALL InsertarRutasUnitariaYrutaCompartida(?)`;
+
+  try {
+    const result = await db.query(query, [routesData]);
+    console.log("Resultado de MySQL:", result);
+    return result;
+  } catch (error) {
+    console.error("Error en MySQL:", error);
+    throw new Error("Error al insertar las rutas: " + error.message);
+  }
+};
+
 module.exports = {
   insertMultipleRoutes,
+  insertRoutesUnitariaYrutaCompartida,
 };

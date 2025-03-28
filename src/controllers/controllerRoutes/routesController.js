@@ -84,10 +84,28 @@ const getRouteAndCrData = async (req, res) => {
   }
 };
 
+const updateRutaUnitaria = async (req, res) => {
+  const { idRuta } = req.params;
+  const { lps, remisiones, zona } = req.body;
+  try {
+    const result = await routesModel.updateRutaUnitaria(
+      idRuta,
+      lps,
+      remisiones,
+      zona
+    );
+    res.json({ message: "Ruta unitaria actualizada correctamente", result });
+  } catch (error) {
+    console.error("Error al actualizar la ruta unitaria:", error);
+    res.status(500).json({ message: "Error al actualizar la ruta unitaria" });
+  }
+};
+
 module.exports = {
   getAllRoutes,
   getRouteInfo,
   getRouteAssignedToOperator,
   getDataFromTheCrThatAssignedRoute,
   getRouteAndCrData,
+  updateRutaUnitaria,
 };

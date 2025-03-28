@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const routesRoutes = require("../controllers/controllerRoutes/routesController");
 
+router.put("/rutaUnitaria/:idRuta", routesRoutes.updateRutaUnitaria);
+
 router.get(
   "/operador/:idOperador/:fecha",
   routesRoutes.getRouteAssignedToOperator

@@ -7,4 +7,6 @@ router.post(
   routeRegistrationController.insertMultipleRoutes
 );
 
+router.post("/agregarRuta", routeRegistrationController.insertarRutas);
+
 module.exports = router;
