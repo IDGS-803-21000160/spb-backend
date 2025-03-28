@@ -7,6 +7,7 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const routeRegistrationRoutes = require("./routes/routesRoutes");
 const routesRoutesConsult = require("./routes/routesRoutesConsult");
+const inicioRutaRoutes = require("./routes/routeIniciarRuta");
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/routes", routeRegistrationRoutes);
 app.use("/api/consult", routesRoutesConsult);
+app.use("api/inicioRuta", inicioRutaRoutes); 
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
