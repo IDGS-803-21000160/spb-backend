@@ -18,8 +18,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/routes", routeRegistrationRoutes);
 app.use("/api/consult", routesRoutesConsult);
-app.use("api/inicioRuta", inicioRutaRoutes); 
-
+app.use("/api/inicioRuta", inicioRutaRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
