@@ -1,4 +1,5 @@
 const routesModel = require("../../models/modelRoutes/routesModel");
+const { get } = require("../../routes/routesRoutesConsult");
 
 const getAllRoutes = async (req, res) => {
   const { date, userId } = req.params;
@@ -11,4 +12,82 @@ const getAllRoutes = async (req, res) => {
   }
 };
 
-module.exports = { getAllRoutes };
+const getRouteInfo = async (req, res) => {
+  const { idRuta, fecha } = req.params;
+  try {
+    const routeInfo = await routesModel.getRutaInfo(idRuta, fecha);
+    res.json(routeInfo);
+  } catch (error) {
+    console.error("Error al obtener información de la ruta:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener información de la ruta" });
+  }
+};
+
+const getRouteAssignedToOperator = async (req, res) => {
+  const { idOperador, fecha } = req.params;
+  try {
+    const routes = await routesModel.getRouteAssignedToOperator(
+      idOperador,
+      fecha
+    );
+    console.log("ruta", routes);
+
+    res.json(routes);
+  } catch (error) {
+    console.error("Error al obtener rutas asignadas al operador:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener rutas asignadas al operador" });
+  }
+};
+
+const getDataFromTheCrThatAssignedRoute = async (req, res) => {
+  const { idCr } = req.params;
+  try {
+    const data = await routesModel.getDataFromTheCrThatAssignedRoute(idCr);
+    res.json(data);
+  } catch (error) {
+    console.error("Error al obtener datos del CR que asignó la ruta:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener datos del CR que asignó la ruta" });
+  }
+};
+
+const getRouteAndCrData = async (req, res) => {
+  const { idOperador, fecha } = req.params;
+  try {
+    // Obtener rutas asignadas al operador
+    const [routes] = await routesModel.getRouteAssignedToOperator(
+      idOperador,
+      fecha
+    );
+    if (routes.length === 0) {
+      return res.status(404).json({
+        message:
+          "No se encontraron rutas para el operador en la fecha especificada",
+      });
+    }
+
+    // Suponiendo que el idCr está en el primer resultado de las rutas
+    const idCr = routes[0].cr_que_registro;
+
+    // Obtener datos del CR que asignó la ruta
+    const [crData] = await routesModel.getDataFromTheCrThatAssignedRoute(idCr);
+
+    res.json({ routes, crData });
+  } catch (error) {
+    console.error("Error al obtener datos de rutas y CR:", error);
+    res.status(500).json({ message: "Error al obtener datos de rutas y CR" });
+  }
+};
+
+module.exports = {
+  getAllRoutes,
+  getRouteInfo,
+  getRouteAssignedToOperator,
+  getDataFromTheCrThatAssignedRoute,
+  getRouteAndCrData,
+};
