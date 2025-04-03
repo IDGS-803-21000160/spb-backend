@@ -15,7 +15,10 @@ const getRoutesByDateAndUser = async (date, userId) => {
 
 const getRutaInfo = async (idRuta, fecha) => {
   try {
-    const [rows] = await pool.query("CALL GetRutaInfo(?,?)", [idRuta, fecha]);
+    const [rows] = await pool.query("CALL uspGetRutaInfo(?,?)", [
+      idRuta,
+      fecha,
+    ]);
     return rows;
   } catch (error) {
     console.error("Error al obtener ruta por id:", error);
