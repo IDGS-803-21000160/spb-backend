@@ -3,12 +3,15 @@ const pool = require("../../config/db");
 const getRoutesByDateAndUser = async (date, userId) => {
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM Ruta WHERE fecha_registro = ? AND id_usuario = ?",
+      "SELECT * FROM Ruta WHERE fecha_registro = ? AND id_usuario = ? AND estado = 'asignada'",
       [date, userId]
     );
     return rows;
   } catch (error) {
-    console.error("Error al obtener rutas por fecha y usuario:", error);
+    console.error(
+      "Error al obtener rutas por fecha, usuario y estado asignada:",
+      error
+    );
     throw error;
   }
 };
@@ -64,10 +67,24 @@ const updateRutaUnitaria = async (idRuta, lps, remisiones, zona) => {
   }
 };
 
+const updateRutaOperador = async (idRutaOperador, idOperador) => {
+  try {
+    const [result] = await pool.query("CALL sp_update_ruta_operador(?, ?)", [
+      idRutaOperador,
+      idOperador,
+    ]);
+    return result;
+  } catch (error) {
+    console.error("Error al actualizar el operador de la ruta:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   getRoutesByDateAndUser,
   getRutaInfo,
   getRouteAssignedToOperator,
   getDataFromTheCrThatAssignedRoute,
   updateRutaUnitaria,
+  updateRutaOperador,
 };
