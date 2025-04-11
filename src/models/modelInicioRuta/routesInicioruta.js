@@ -6,12 +6,14 @@ const insertInicioRuta = async (inicioRutaData) => {
   
   try {
     const [result] = await db.execute(query, [
-      inicioRutaData.id_ruta_operador,
+      inicioRutaData.id_ruta_operador=1,
       inicioRutaData.captura_simplieroute,
       inicioRutaData.kilometraje_inicial,
       inicioRutaData.imagen_kilometraje,
       inicioRutaData.fecha_inicio,
     ]);
+    
+
     return result;
   } catch (error) {
     console.error("Error en MySQL:", error);
