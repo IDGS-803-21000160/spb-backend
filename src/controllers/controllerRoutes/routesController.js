@@ -101,6 +101,25 @@ const updateRutaUnitaria = async (req, res) => {
   }
 };
 
+const updateRutaOperador = async (req, res) => {
+  const { idRutaOperador, idOperador } = req.body;
+  try {
+    const result = await routesModel.updateRutaOperador(
+      idRutaOperador,
+      idOperador
+    );
+    res.json({
+      message: "Operador de la ruta actualizado correctamente",
+      result,
+    });
+  } catch (error) {
+    console.error("Error al actualizar el operador de la ruta:", error);
+    res
+      .status(500)
+      .json({ message: "Error al actualizar el operador de la ruta" });
+  }
+};
+
 module.exports = {
   getAllRoutes,
   getRouteInfo,
@@ -108,4 +127,5 @@ module.exports = {
   getDataFromTheCrThatAssignedRoute,
   getRouteAndCrData,
   updateRutaUnitaria,
+  updateRutaOperador,
 };
