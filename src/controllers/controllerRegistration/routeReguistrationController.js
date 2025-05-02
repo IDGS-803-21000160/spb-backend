@@ -51,8 +51,49 @@ const changeRutaEstado = async (req, res) => {
   }
 };
 
+const convertToSharedRoute = async (req, res) => {
+  const {
+    idRuta,
+    lpsTotales,
+    remisionesTotales,
+    idRutaOperador,
+    zonaRutaOperadorActual,
+    lpsRutaOperadorActual,
+    remisionesRutaOperadorActual,
+    operadoresData,
+  } = req.body;
+
+  // Validar que los campos requeridos estén presentes
+  if (!idRuta || !lpsTotales || !remisionesTotales || !operadoresData) {
+    return res.status(400).json({
+      message:
+        "Faltan datos requeridos: idRuta, capacidadMaxima, capacidadActual, operadoresData",
+    });
+  }
+
+  try {
+    const result = await routeRegistrationModel.convertToSharedRoute(
+      idRuta,
+      lpsTotales,
+      remisionesTotales,
+      idRutaOperador,
+      zonaRutaOperadorActual,
+      lpsRutaOperadorActual,
+      remisionesRutaOperadorActual,
+      operadoresData
+    );
+    res
+      .status(200)
+      .json({ message: "Ruta convertida a compartida exitosamente", result });
+  } catch (error) {
+    console.error("Error al convertir a ruta compartida:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   insertMultipleRoutes,
   insertarRutas,
   changeRutaEstado,
+  convertToSharedRoute,
 };

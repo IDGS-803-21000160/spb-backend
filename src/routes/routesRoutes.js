@@ -9,5 +9,9 @@ router.post(
   routeRegistrationController.insertMultipleRoutes
 );
 router.post("/agregarRuta", routeRegistrationController.insertarRutas);
+router.post(
+  "/convertirRutaCompartida",
+  routeRegistrationController.convertToSharedRoute
+);
 
 module.exports = router;

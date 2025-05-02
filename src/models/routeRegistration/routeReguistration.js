@@ -39,8 +39,40 @@ const changeRutaEstado = async (idRuta, nuevoEstado) => {
   }
 };
 
+const convertToSharedRoute = async (
+  idRuta,
+  lpsTotales,
+  remisionesTotales,
+  idRutaOperador,
+  zonaRutaOperadorActual,
+  lpsRutaOperadorActual,
+  remisionesRutaOperadorActual,
+  operadoresData
+) => {
+  const query = `CALL sp_convertir_a_ruta_compartida(?, ?, ?, ?, ?, ?, ?, ?)`;
+
+  try {
+    const result = await db.query(query, [
+      idRuta,
+      lpsTotales,
+      remisionesTotales,
+      idRutaOperador,
+      zonaRutaOperadorActual,
+      lpsRutaOperadorActual,
+      remisionesRutaOperadorActual,
+      JSON.stringify(operadoresData),
+    ]);
+    console.log("Resultado de MySQL:", result);
+    return result;
+  } catch (error) {
+    console.error("Error en MySQL:", error);
+    throw new Error("Error al convertir a ruta compartida: " + error.message);
+  }
+};
+
 module.exports = {
   insertMultipleRoutes,
   insertRoutesUnitariaYrutaCompartida,
   changeRutaEstado,
+  convertToSharedRoute,
 };
