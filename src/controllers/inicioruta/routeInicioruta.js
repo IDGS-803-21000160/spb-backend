@@ -1,28 +1,31 @@
-const inicioRutaModel = require("../../models/modelInicioRuta/routesInicioruta");
+const {
+  insertInicioRuta,
+} = require("../../models/modelInicioRuta/routesInicioruta");
 
-const insertInicioRuta = async (req, res) => {
+const createInicioRuta = async (req, res) => {
+  const inicioRutaData = {
+    id_ruta_operador: req.body.id_ruta_operador,
+    doc_manifiesto: req.body.doc_manifiesto,
+    kilometraje_inicial: req.body.kilometraje_inicial,
+    imagen_kilometraje: req.body.imagen_kilometraje,
+    fecha_inicio: req.body.fecha_inicio,
+  };
+
   try {
-    const { id_ruta_operador, kilometraje_inicial, fecha_inicio } = req.body;
-
-    const capturaPath = req.files["captura_simplieroute"][0].path.replace("uploads/", "");
-    const imagenKmPath = req.files["imagen_kilometraje"][0].path.replace("uploads/", "");
-
-    const data = {
-      id_ruta_operador,
-      kilometraje_inicial,
-      fecha_inicio,
-      captura_simplieroute: capturaPath,
-      imagen_kilometraje: imagenKmPath,
-    };
-
-    const result = await inicioRutaModel.insertInicioRuta(data);
-    res.status(201).json({ message: "Inicio de ruta registrado exitosamente", result });
+    const result = await insertInicioRuta(inicioRutaData);
+    res.status(201).json({
+      message: "Inicio de ruta creado exitosamente",
+      data: result,
+    });
   } catch (error) {
-    console.error("Error al insertar inicio de ruta:", error);
-    res.status(500).json({ message: error.message });
+    console.error("Error al crear el inicio de ruta:", error);
+    res.status(500).json({
+      message: "Error al crear el inicio de ruta",
+      error: error.message,
+    });
   }
 };
 
 module.exports = {
-  insertInicioRuta,
+  createInicioRuta,
 };

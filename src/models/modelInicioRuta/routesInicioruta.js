@@ -2,17 +2,16 @@
 const db = require("../../config/db"); // Configuración de la BD
 
 const insertInicioRuta = async (inicioRutaData) => {
-  const query = `INSERT INTO InicioRuta (id_ruta_operador, captura_simplieroute, kilometraje_inicial, imagen_kilometraje, fecha_inicio) VALUES (?, ?, ?, ?, ?)`;
-  
+  const query = `CALL usp_insert_inicio_ruta(?, ?, ?, ?, ?)`;
+
   try {
     const [result] = await db.execute(query, [
-      inicioRutaData.id_ruta_operador=1,
-      inicioRutaData.captura_simplieroute,
+      inicioRutaData.id_ruta_operador,
+      inicioRutaData.doc_manifiesto,
       inicioRutaData.kilometraje_inicial,
       inicioRutaData.imagen_kilometraje,
       inicioRutaData.fecha_inicio,
     ]);
-    
 
     return result;
   } catch (error) {
