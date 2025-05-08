@@ -3,12 +3,25 @@ const {
 } = require("../../models/modelInicioRuta/routesInicioruta");
 
 const createInicioRuta = async (req, res) => {
+  const {
+    id_ruta_operador,
+    doc_manifiesto,
+    kilometraje_inicial,
+    imagen_kilometraje,
+    fecha_inicio,
+  } = req.body;
+
+  // Validación de campo requerido
+  if (id_ruta_operador == null) {
+    return res.status(400).json({ error: "id_ruta_operador es obligatorio" });
+  }
+
   const inicioRutaData = {
-    id_ruta_operador: req.body.id_ruta_operador,
-    doc_manifiesto: req.body.doc_manifiesto,
-    kilometraje_inicial: req.body.kilometraje_inicial,
-    imagen_kilometraje: req.body.imagen_kilometraje,
-    fecha_inicio: req.body.fecha_inicio,
+    id_ruta_operador,
+    doc_manifiesto,
+    kilometraje_inicial,
+    imagen_kilometraje,
+    fecha_inicio,
   };
 
   try {

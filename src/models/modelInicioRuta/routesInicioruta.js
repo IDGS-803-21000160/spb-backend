@@ -4,15 +4,17 @@ const db = require("../../config/db"); // Configuración de la BD
 const insertInicioRuta = async (inicioRutaData) => {
   const query = `CALL usp_insert_inicio_ruta(?, ?, ?, ?, ?)`;
 
-  try {
-    const [result] = await db.execute(query, [
-      inicioRutaData.id_ruta_operador,
-      inicioRutaData.doc_manifiesto,
-      inicioRutaData.kilometraje_inicial,
-      inicioRutaData.imagen_kilometraje,
-      inicioRutaData.fecha_inicio,
-    ]);
+  // Convertir undefined en null para parámetros opcionales
+  const params = [
+    inicioRutaData.id_ruta_operador, // requerido
+    inicioRutaData.doc_manifiesto ?? null,
+    inicioRutaData.kilometraje_inicial ?? null,
+    inicioRutaData.imagen_kilometraje ?? null,
+    inicioRutaData.fecha_inicio ?? null,
+  ];
 
+  try {
+    const [result] = await db.execute(query, params);
     return result;
   } catch (error) {
     console.error("Error en MySQL:", error);
