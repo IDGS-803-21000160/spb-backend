@@ -1,42 +1,56 @@
-const cierreRutaModel = require("../../models/modelFinRuta/routesFinalizaRuta");
+const {
+  insertarCierreRuta,
+} = require("../../models/modelFinRuta/routesFinalizaRuta");
 
-const insertCierreRuta = async (req, res) => {
+const finalizarRutaController = async (req, res) => {
+  const {
+    idRutaOperador,
+    capturaSimplieroute2,
+    lpsExitosos,
+    lpsFallidos,
+    remisionesFinales,
+    fechaCierre,
+    kilometrajeFinal,
+    imagenKilometraje,
+    visitados,
+    cancelados,
+  } = req.body;
+
+  if (
+    !idRutaOperador ||
+    !fechaCierre ||
+    !kilometrajeFinal ||
+    !imagenKilometraje
+  ) {
+    return res.status(400).json({
+      error: "Faltan datos obligatorios en la solicitud.",
+    });
+  }
+
   try {
-    const {
-      id_ruta_operador,
-      lps_exitosos,
-      lps_fallidos,
-      remisiones_finales,
-      fecha_cierre,
-      kilometraje_final,
+    const result = await insertarCierreRuta({
+      idRutaOperador,
+      capturaSimplieroute2,
+      lpsExitosos,
+      lpsFallidos,
+      remisionesFinales,
+      fechaCierre,
+      kilometrajeFinal,
+      imagenKilometraje,
       visitados,
-      cancelados
-    } = req.body;
+      cancelados,
+    });
 
-    const capturaPath = req.files["captura_simplieroute2"][0].path.replace("uploads/", "");
-    const imagenKmPath = req.files["imagen_kilometraje"][0].path.replace("uploads/", "");
-
-    const data = {
-      id_ruta_operador,
-      captura_simplieroute2: capturaPath,
-      lps_exitosos,
-      lps_fallidos,
-      remisiones_finales,
-      fecha_cierre,
-      kilometraje_final,
-      imagen_kilometraje: imagenKmPath,
-      visitados,
-      cancelados
-    };
-
-    const result = await cierreRutaModel.insertCierreRuta(data);
-    res.status(201).json({ message: "Cierre de ruta registrado exitosamente", result });
+    return res.status(200).json({
+      message: "Ruta finalizada exitosamente.",
+      data: result,
+    });
   } catch (error) {
-    console.error("Error al insertar cierre de ruta:", error);
-    res.status(500).json({ message: error.message });
+    console.error("Error al finalizar la ruta:", error);
+    return res.status(500).json({
+      error: "Ocurrió un error al finalizar la ruta.",
+    });
   }
 };
 
-module.exports = {
-  insertCierreRuta,
-};
+module.exports = { finalizarRutaController };
