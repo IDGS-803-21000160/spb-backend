@@ -3,7 +3,7 @@ const pool = require("../../config/db");
 const getRoutesByDateAndUser = async (date, userId) => {
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM Ruta WHERE fecha_registro = ? AND id_usuario = ? AND id_estatus = 1",
+      "SELECT * FROM Ruta WHERE fecha_registro = ? AND id_usuario = ? AND id_estatus = 1 OR id_estatus = 2",
       [date, userId]
     );
     return rows;
