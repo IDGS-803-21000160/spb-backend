@@ -30,4 +30,24 @@ const getOperadores = async (req, res) => {
     res.status(500).json({ message: "Error al obtener operadores" });
   }
 };
-module.exports = { getAllUsers, getUserById, getOperadores };
+
+const getRutaOperadoresByRutaId = async (req, res) => {
+  try {
+    const rutaOperadores = await UserModel.getRutaOperadoresByRutaId(
+      req.params.id_ruta
+    );
+    res.json(rutaOperadores);
+  } catch (error) {
+    console.error("Error al obtener Ruta_Operador por id_ruta:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener Ruta_Operador por id_ruta" });
+  }
+};
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+  getOperadores,
+  getRutaOperadoresByRutaId,
+};

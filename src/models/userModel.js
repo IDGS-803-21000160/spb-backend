@@ -17,7 +17,7 @@ const getUserById = async (id) => {
 const getOperadores = async () => {
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM Persona WHERE tipo= 'Operador'"
+      "SELECT * FROM Persona WHERE tipo= 'Operador' OR tipo = 'EncargadoCR' "
     );
     return rows;
   } catch (error) {
@@ -26,4 +26,22 @@ const getOperadores = async () => {
   }
 };
 
-module.exports = { getUsers, getUserById, getOperadores };
+const getRutaOperadoresByRutaId = async (id_ruta) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM Ruta_Operador WHERE id_ruta = ? ORDER BY id_ruta_operador ASC",
+      [id_ruta]
+    );
+    return rows;
+  } catch (error) {
+    console.error("Error al obtener Ruta_Operador por id_ruta:", error);
+    throw error;
+  }
+};
+
+module.exports = {
+  getUsers,
+  getUserById,
+  getOperadores,
+  getRutaOperadoresByRutaId,
+};
