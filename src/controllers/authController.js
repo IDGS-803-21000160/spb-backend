@@ -38,9 +38,8 @@ const login = async (req, res) => {
       detalles: userDetails,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error al autenticar usuario", error: error.message });
+    console.error('❌ ERROR EN LOGIN:', error); // ESTE ES CLAVE
+    return res.status(500).json({ message: 'Error interno del servidor' });
   }
 };
 

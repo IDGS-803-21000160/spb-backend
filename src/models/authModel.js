@@ -2,7 +2,7 @@ const pool = require("../config/db");
 
 const getUserByUsername = async (usuario, contrasena) => {
   const [rows] = await pool.query(
-    "SELECT * FROM usuario WHERE usuario = ? AND contrasena = ?",
+    "SELECT * FROM Usuario WHERE usuario = ? AND contrasena = ?",
     [usuario, contrasena]
   );
   return rows.length > 0 ? rows[0] : null;
@@ -10,7 +10,7 @@ const getUserByUsername = async (usuario, contrasena) => {
 
 const getOperatorDetails = async (id_persona) => {
   const [rows] = await pool.query(
-    "SELECT * FROM persona WHERE id_persona = ?",
+    "SELECT * FROM Persona WHERE id_persona = ?",
     [id_persona]
   );
   return rows.length > 0 ? rows[0] : null;
