@@ -2,26 +2,18 @@ const pool = require("../config/db");
 
 const getUserByUsername = async (usuario, contrasena) => {
   const [rows] = await pool.query(
-    "SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ?",
+    "SELECT * FROM usuario WHERE usuario = ? AND contrasena = ?",
     [usuario, contrasena]
   );
   return rows.length > 0 ? rows[0] : null;
 };
 
-const getOperatorDetails = async (id_usuario) => {
+const getOperatorDetails = async (id_persona) => {
   const [rows] = await pool.query(
-    "SELECT * FROM operadores WHERE id_usuario = ?",
-    [id_usuario]
+    "SELECT * FROM persona WHERE id_persona = ?",
+    [id_persona]
   );
   return rows.length > 0 ? rows[0] : null;
 };
 
-const getEncargadoDetails = async (id_usuario) => {
-  const [rows] = await pool.query(
-    "SELECT * FROM encargados_cr WHERE id_usuario = ?",
-    [id_usuario]
-  );
-  return rows.length > 0 ? rows[0] : null;
-};
-
-module.exports = { getUserByUsername, getOperatorDetails, getEncargadoDetails };
+module.exports = { getUserByUsername, getOperatorDetails };
