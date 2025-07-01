@@ -80,6 +80,34 @@ const updateRutaOperador = async (idRutaOperador, idOperador) => {
   }
 };
 
+const getRutasPorFechaWeb = async (fecha) => {
+  try {
+    const [rows] = await pool.query("CALL sp_obtener_rutas_por_fecha_web(?)", [
+      fecha,
+    ]);
+    return rows;
+  } catch (error) {
+    console.error("Error al obtener rutas por fecha (web):", error);
+    throw error;
+  }
+};
+
+const getRutaOperadorDetalleWeb = async (idOperador) => {
+  try {
+    const [rows] = await pool.query(
+      "CALL sp_obtener_ruta_operador_detalle_web(?)",
+      [idOperador]
+    );
+    return rows;
+  } catch (error) {
+    console.error(
+      "Error al obtener detalle de ruta del operador (web):",
+      error
+    );
+    throw error;
+  }
+};
+
 module.exports = {
   getRoutesByDateAndUser,
   getRutaInfo,
@@ -87,4 +115,6 @@ module.exports = {
   getDataFromTheCrThatAssignedRoute,
   updateRutaUnitaria,
   updateRutaOperador,
+  getRutasPorFechaWeb,
+  getRutaOperadorDetalleWeb,
 };

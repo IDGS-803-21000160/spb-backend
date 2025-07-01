@@ -120,6 +120,33 @@ const updateRutaOperador = async (req, res) => {
   }
 };
 
+const getRutasPorFechaWeb = async (req, res) => {
+  const { fecha } = req.params;
+  try {
+    const rutas = await routesModel.getRutasPorFechaWeb(fecha);
+    res.json(rutas);
+  } catch (error) {
+    console.error("Error al obtener rutas por fecha (web):", error);
+    res.status(500).json({ message: "Error al obtener rutas por fecha (web)" });
+  }
+};
+
+const getRutaOperadorDetalleWeb = async (req, res) => {
+  const { idOperador } = req.params;
+  try {
+    const detalle = await routesModel.getRutaOperadorDetalleWeb(idOperador);
+    res.json(detalle);
+  } catch (error) {
+    console.error(
+      "Error al obtener detalle de ruta del operador (web):",
+      error
+    );
+    res
+      .status(500)
+      .json({ message: "Error al obtener detalle de ruta del operador (web)" });
+  }
+};
+
 module.exports = {
   getAllRoutes,
   getRouteInfo,
@@ -128,4 +155,6 @@ module.exports = {
   getRouteAndCrData,
   updateRutaUnitaria,
   updateRutaOperador,
+  getRutasPorFechaWeb,
+  getRutaOperadorDetalleWeb,
 };
