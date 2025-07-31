@@ -45,9 +45,56 @@ const getRutaOperadoresByRutaId = async (req, res) => {
   }
 };
 
+const getUsuariosDatosPersonales = async (req, res) => {
+  try {
+    const usuariosDatos = await UserModel.getUsuariosDatosPersonales();
+    res.json(usuariosDatos);
+  } catch (error) {
+    console.error("Error al obtener datos personales de usuarios:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener datos personales de usuarios" });
+  }
+};
+
+const createNuevoUsuario = async (req, res) => {
+  try {
+    const {
+      nombre,
+      curp,
+      domicilio,
+      numero_telefonico,
+      tipo,
+      id_unico,
+      id_cr,
+      usuario,
+      contrasena,
+    } = req.body;
+
+    const result = await UserModel.createNuevoUsuario({
+      nombre,
+      curp,
+      domicilio,
+      numero_telefonico,
+      tipo,
+      id_unico,
+      id_cr,
+      usuario,
+      contrasena,
+    });
+
+    res.status(201).json({ message: "Usuario creado exitosamente", result });
+  } catch (error) {
+    console.error("Error al crear nuevo usuario:", error);
+    res.status(500).json({ message: "Error al crear nuevo usuario" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
   getOperadores,
   getRutaOperadoresByRutaId,
+  getUsuariosDatosPersonales,
+  createNuevoUsuario,
 };
