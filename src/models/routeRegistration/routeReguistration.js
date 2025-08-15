@@ -70,9 +70,23 @@ const convertToSharedRoute = async (
   }
 };
 
+const insertBigTicketRoutes = async (routesData) => {
+  const query = `CALL sp_insertar_rutas_BigTicket(?)`;
+
+  try {
+    const result = await db.query(query, [routesData]);
+    console.log("Resultado de MySQL:", result);
+    return result;
+  } catch (error) {
+    console.error("Error en MySQL:", error);
+    throw new Error("Error al insertar rutas BigTicket: " + error.message);
+  }
+};
+
 module.exports = {
   insertMultipleRoutes,
   insertRoutesUnitariaYrutaCompartida,
   changeRutaEstado,
   convertToSharedRoute,
+  insertBigTicketRoutes,
 };

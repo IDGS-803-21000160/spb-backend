@@ -91,9 +91,27 @@ const convertToSharedRoute = async (req, res) => {
   }
 };
 
+const insertBigTicketRoutes = async (req, res) => {
+  // Convertir el JSON a string
+  const routesData = JSON.stringify(req.body);
+
+  try {
+    const result = await routeRegistrationModel.insertBigTicketRoutes(
+      routesData
+    );
+    res
+      .status(201)
+      .json({ message: "Rutas BigTicket insertadas exitosamente", result });
+  } catch (error) {
+    console.error("Error al insertar rutas BigTicket:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   insertMultipleRoutes,
   insertarRutas,
   changeRutaEstado,
   convertToSharedRoute,
+  insertBigTicketRoutes,
 };

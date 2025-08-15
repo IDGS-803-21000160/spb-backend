@@ -13,5 +13,9 @@ router.post(
   "/convertirRutaCompartida",
   routeRegistrationController.convertToSharedRoute
 );
+router.post(
+  "/insertBigTicketRoutes",
+  routeRegistrationController.insertBigTicketRoutes
+);
 
 module.exports = router;
